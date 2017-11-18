@@ -3,19 +3,28 @@ public class RomanNumeral {
 
 	public static void main(String[] args) {
 		Scanner key = new Scanner(System.in);
-	    System.out.print("Enter a number for me to convert to Roman Numerals: ");
-	    int input = key.nextInt();
+	    System.out.print("Enter a Roman Numeral for me to convert : ");//prompt user for input
+	    String input = key.nextLine().toUpperCase();//record given Roman numeral
 	    
-	    String RomanOutput = "";
-		String[] rn = { "I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
-	    int[] an = { 1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
-	    for(int i =an.length-1;0<=i;i--) {
-    		while (input >= an[i]) {
-    		RomanOutput += rn[i];
-	        input -= an[i];
-    		}
+	    int Output = 0;//prepare output int
+	    int prev = 0;//prepare previous number int 
+		char[] rn = { 'I', 'V', 'X', 'L', 'C', 'D', 'M'};//array for Roman numerals
+	    int[] an = { 1, 5, 10, 50, 100, 500, 1000};//array for values of Roman numerals
+	    for(int i = input.length()-1;i>=0;i--) {//for length of the input, starting at the last value in the string
+    		char currentchar = input.charAt(i);//get the last character
+	    	for(int j = an.length-1;0<=j;j--) {//for the length of the array, starting at the last value in the array
+	    		if(currentchar == rn[j]) {//if the current character from the user's input is in the Roman numeral array
+	    			if(prev>an[j]) {//handler for things such as IV where you must subtract the first number from the second
+			    		prev = (-1*an[j]);	//do the subtraction if required
+		    		}else {
+		    			prev = an[j];//if no subtraction is required just set the previous number to the current one and move on
+		    		}
+	    			Output += prev;//add the previous number to output
+		    		//System.out.println(prev);//this is just a debug line to make sure the conversion is correct feel free to uncomment to see how it's working
+	    		}
+	    	}
     	}
-	    System.out.println("Your Roman Numeral is " + RomanOutput);
+	    System.out.println("Your Roman Numeral converted to " + Output);//show user the result
 	}
 
 }
